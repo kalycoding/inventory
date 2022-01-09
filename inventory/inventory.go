@@ -6,27 +6,33 @@ import (
 )
 
 type Category struct {
-	ID          string `json:"id" data:"readonly"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	TimeStamp
+	ID          string    `json:"_id" data:"readonly"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"createdAt" data:"readonly"`
+	UpdatedAt   time.Time `json:"updatedAt" data:"readonly"`
+	IsDeleted   bool      `json:"isDeleted"`
 }
 
 type Product struct {
-	ID          string `json:"id" data:"readonly"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	TimeStamp
+	ID          string    `json:"id" data:"readonly"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"createdAt" data:"readonly"`
+	UpdatedAt   time.Time `json:"updatedAt" data:"readonly"`
+	IsDeleted   bool      `json:"isDeleted"`
 }
 
 type Inventory struct {
-	Product      Product `json:"product"`
-	CostPrice    float64 `json:"costPrice"`
-	Quantity     int     `json:"quantity"`
-	RestockLevel int     `json:"restockLevel"`
-	SellingPrice float64 `json:"sellingPrice"`
-	Supplier     string  `json:"supplier"`
-	TimeStamp
+	Product      Product   `json:"product"`
+	CostPrice    float64   `json:"costPrice"`
+	Quantity     int       `json:"quantity"`
+	RestockLevel int       `json:"restockLevel"`
+	SellingPrice float64   `json:"sellingPrice"`
+	Supplier     string    `json:"supplier"`
+	CreatedAt    time.Time `json:"createdAt" data:"readonly"`
+	UpdatedAt    time.Time `json:"updatedAt" data:"readonly"`
+	IsDeleted    bool      `json:"isDeleted"`
 }
 type TimeStamp struct {
 	CreatedAt time.Time `json:"createdAt" data:"readonly"`

@@ -3,15 +3,14 @@ package datastore
 import (
 	"context"
 	"errors"
-	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func CreateMongoClient(URI string) (*mongo.Client, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+func CreateMongoClient(ctx context.Context, URI string) (*mongo.Client, error) {
+	// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	// defer cancel()
 	if URI == "" {
 		return nil, errors.New("URI cant be empty")
 	}
