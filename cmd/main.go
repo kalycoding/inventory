@@ -29,8 +29,25 @@ func main() {
 	paymentHandler := handler.NewInventoryHandler(storage)
 	r := gin.Default()
 
-	r.POST("api/inventory", paymentHandler.CreateInventory)
+	// Category Creation
 	r.POST("api/category", paymentHandler.CreateCategory)
 	r.GET("api/category", paymentHandler.GetAllCategories)
+	r.GET("api/category/:catId", paymentHandler.GetCategory)
+	r.DELETE("api/category/:catId", paymentHandler.DeleteCategory)
+
+	// Product Endpoint
+	r.POST("api/product", paymentHandler.CreateProduct)
+	r.GET("api/product", paymentHandler.GetAllProduct)
+	r.GET("api/product/:prodId", paymentHandler.GetProduct)
+	r.DELETE("api/product/:prodId", paymentHandler.DeleteProduct)
+
+	// Category Inventory
+	r.POST("api/inventory", paymentHandler.CreateInventory)
+	r.GET("api/inventory", paymentHandler.GetAllInventory)
+	r.GET("api/inventory/:invId", paymentHandler.GetInventory)
+	r.DELETE("api/inventory/:invId", paymentHandler.DeleteInventory)
+	r.PUT("api/inventory/:invId", paymentHandler.UpdateInventory)
+
+	r.GET("api/inventory/export/csv", paymentHandler.ExportInventoryToCSV)
 	r.Run()
 }
