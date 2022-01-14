@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/kalycoding/inventory/datastore"
 	"github.com/kalycoding/inventory/handler"
@@ -29,6 +30,9 @@ func main() {
 	paymentHandler := handler.NewInventoryHandler(storage)
 	r := gin.Default()
 
+	/* CORS Allow All Origin to be true */
+	r.Use(cors.New(CorsMiddleware()))
+
 	// Category Creation
 	r.POST("api/category", paymentHandler.CreateCategory)
 	r.GET("api/category", paymentHandler.GetAllCategories)
@@ -48,6 +52,15 @@ func main() {
 	r.DELETE("api/inventory/:invId", paymentHandler.DeleteInventory)
 	r.PUT("api/inventory/:invId", paymentHandler.UpdateInventory)
 
+	//Export product to CSV Endpoint
 	r.GET("api/inventory/export/csv", paymentHandler.ExportInventoryToCSV)
+
 	r.Run()
+}
+
+/* CorsMiddleware set Allow All Origin to true */
+func CorsMiddleware() cors.Config {
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	return config
 }

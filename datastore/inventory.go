@@ -32,7 +32,7 @@ func (e *InventoryMongoStorage) InventoryCollection() *mongo.Collection {
 	return e.Client.Database(INVENTORYDATABASE).Collection(INVENTORYCOLLECTION)
 }
 
-//Inventory CRUD
+/* CreateProduct create a new product object in the database */
 func (i *InventoryMongoStorage,
 ) CreateProduct(ctx context.Context, payload *inventory.Product, catId string,
 ) (*mongo.InsertOneResult, *inventory.Product, error) {
@@ -69,6 +69,7 @@ func (i *InventoryMongoStorage,
 	return result, payload, nil
 }
 
+/* GetProduct gets product object in the database given its product ID as a param */
 func (i *InventoryMongoStorage,
 ) GetProduct(ctx context.Context, prodId string,
 ) (*mongo.SingleResult, error) {
@@ -91,6 +92,7 @@ func (i *InventoryMongoStorage,
 	return res, nil
 }
 
+/* GetAllProduct gets all product objects from the database*/
 func (i *InventoryMongoStorage,
 ) GetAllProduct(ctx context.Context,
 ) (*mongo.Cursor, error) {
@@ -110,6 +112,7 @@ func (i *InventoryMongoStorage,
 	return res, nil
 }
 
+/* DeleteProduct deletes product object in the database given its product ID as a param */
 func (i *InventoryMongoStorage,
 ) DeleteProduct(ctx context.Context, catId string,
 ) (*mongo.SingleResult, error) {
@@ -342,4 +345,3 @@ func (i *InventoryMongoStorage,
 	}
 	return payload, res, nil
 }
-

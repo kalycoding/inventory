@@ -32,7 +32,7 @@ func (i InventoryHandler) CreateCategory(c *gin.Context) {
 	}
 	_, cat, err := i.inventory.CreateCategory(c, cat)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(200, gin.H{"error": "Category Already Exist"})
 		return
 	}
 	c.JSON(201, cat)
@@ -91,6 +91,9 @@ func (i InventoryHandler) DeleteCategory(c *gin.Context) {
 func (i InventoryHandler) CreateProduct(c *gin.Context) {
 	category := &inventory.Product{}
 	catId := c.Query("catId")
+	if catId == "" {
+		c.JSON(400, gin.H{"error": "Supplier category object"})
+	}
 	if err := c.BindJSON(&category); err != nil {
 		log.Fatalf("Error %v", err)
 	}
@@ -245,7 +248,9 @@ func (i InventoryHandler) ExportInventoryToCSV(c *gin.Context) {
 	}
 
 	records := [][]string{
-		{"product", "Quantity", "Cost Price", "Stock Level", "Selling Price", "Supplier"},
+		{"product", "Quantity", "Cost Price",
+			"Stock Level", "Selling Price", "Supplier",
+			"Product Category"},
 	}
 	for _, v := range prod {
 		records = append(records, []string{
@@ -255,10 +260,11 @@ func (i InventoryHandler) ExportInventoryToCSV(c *gin.Context) {
 			fmt.Sprint(v.StockLevel),
 			fmt.Sprint(v.SellingPrice),
 			v.Supplier,
+			v.Product.Category.Name,
 		})
 	}
 	fmt.Println(records)
-	f, err := os.Create("users.csv")
+	f, err := os.Create("inventory.csv")
 	defer f.Close()
 
 	if err != nil {
