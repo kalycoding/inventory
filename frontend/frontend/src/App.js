@@ -99,7 +99,7 @@ function App() {
       <button
         type="submit"
       >
-        Create Category
+        Category
       </button>
       <p>Category</p> 
     </form>

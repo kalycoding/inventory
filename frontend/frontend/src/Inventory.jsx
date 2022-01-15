@@ -22,8 +22,10 @@ function InventoryApp(){
               window.location.reload(); 
       }
     
-      const [inventoryData, setInventory] = React.useState([]);
     
+      const [inventoryData, setInventory] = React.useState([]);
+      const [productData, setProduct] = React.useState([]);
+      
       React.useEffect(() => {
         let mounted = true;
         axios.get('http://localhost:8080/api/inventory')
@@ -44,32 +46,52 @@ function InventoryApp(){
         //   })
         return () => mounted = false;
       }, [])
+      React.useEffect(() => {
+        let mounted = true;
+        axios.get('http://localhost:8080/api/product')
+              .then(function(response){
+                if (response.status===200){
+                  if(mounted) {
+                      setProduct(response.data)
+                    }
+                }
+                
+              })
+              .catch(error => {setProduct([])
+              })
+        
+        // getList()
+        //   .then(items => {
+        //     
+        //   })
+        return () => mounted = false;
+      }, [])
     
-      console.log(inventoryData)
+      console.log(formValue)
       const handleSubmit = (event) => {
         //event.preventDefault();
         const productFormData = new FormData();
-        productFormData.append("product_id", formValue.product_id)
+        productFormData.append("products", formValue.product_id)
         productFormData.append("cost_price", formValue.cost_price)
         productFormData.append("quantity", formValue.quantity)
         productFormData.append("stock_level", formValue.stock_level)
         productFormData.append("selling_price", formValue.selling_price)
         productFormData.append("supplier", formValue.supplier)
         const body = {
-            costPrice : formValue.cost_price, 
-            quantity : formValue.quantity,
-            stockLevel : formValue.stock_level,
-            sellingPrice : formValue.selling_price,
+            costPrice : Number(formValue.cost_price), 
+            quantity : Number(formValue.quantity),
+            stockLevel : Number(formValue.stock_level),
+            sellingPrice : Number(formValue.selling_price),
             supplier : formValue.supplier
         };
           axios.post('http://localhost:8080/api/inventory',body, { params: { prodId: formValue.product_id } })
               .then(function(response){
-                if (response.status===201){
-                  alert(`Category ${formValue.supplier} Created`)
-                }
-                else{
-                  alert(`Category ${formValue.supplier} Already Exist`)
-                }
+                // if (response.status===201){
+                //   alert(`Category ${formValue.supplier} Created`)
+                // }
+                // else{
+                //   alert(`Category ${formValue.supplier} Already Exist`)
+                // }
               })
               .catch(error => {alert(error)
               })
@@ -83,16 +105,20 @@ function InventoryApp(){
 
           return(
             <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} id='products'>
               <p>Inventory Creation Page</p>
-              <input
-                type="text"
-                name="product_id"
-                placeholder="Product"
-                value={formValue.product_id}
-                onChange={handleChange}
-                required
-              />
+              
+
+                {
+                  !productData ? <select><option value="none" selected disabled hidden>Empty Products, Add product</option></select> : 
+                  <select name="product_id" onChange={handleChange}>
+                    <option value="none" selected disabled hidden>Choose Product</option>
+                    {productData.map(data=>(
+                    <option key={data.id} value={data.id} name="product_id">{data.name}</option>
+                    
+                    ))}
+                  </select>
+                }
               <input
                 type="text"
                 name="cost_price"

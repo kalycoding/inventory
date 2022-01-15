@@ -19,7 +19,28 @@ function ProductApp() {
   }
 
   const [productData, setProduct] = React.useState([]);
+  const [categoryData, setCategory] = React.useState([]);
 
+  React.useEffect(() => {
+    let mounted = true;
+    axios.get('http://localhost:8080/api/category')
+          .then(function(response){
+            if (response.status===200){
+              if(mounted) {
+                  setCategory(response.data)
+                }
+            }
+            
+          })
+          .catch(error => {setCategory([])
+          })
+    
+    // getList()
+    //   .then(items => {
+    //     
+    //   })
+    return () => mounted = false;
+  }, [])
   React.useEffect(() => {
     let mounted = true;
     axios.get('http://localhost:8080/api/product')
@@ -51,12 +72,12 @@ function ProductApp() {
     const body = {name:formValue.product_name,description:formValue.product_description};
       axios.post('http://localhost:8080/api/product',body, { params: { catId: formValue.category_id } })
           .then(function(response){
-            if (response.status===201){
-              alert(`Category ${formValue.product_name} Created`)
-            }
-            else{
-              alert(`Category ${formValue.product_name} Already Exist`)
-            }
+            // if (response.status===201){
+            //   alert(`Category ${formValue.product_name} Created`)
+            // }
+            // else{
+            //   alert(`Category ${formValue.product_name} Already Exist`)
+            // }
           })
           .catch(error => {alert(error)
           })
@@ -71,15 +92,17 @@ function ProductApp() {
       return(
         <div>
         <form onSubmit={handleSubmit}>
-          <p>Category Creation Page</p>
-          <input
-            type="text"
-            name="category_id"
-            placeholder="Category"
-            value={formValue.category_id}
-            onChange={handleChange}
-            required
-          />
+          <p>Product Page</p>
+          {
+                  !categoryData ? <select><option value="none" selected disabled hidden >Empty Categories, Add Category</option></select> : 
+                  <select name="category_id" onChange={handleChange}>
+                    <option value="none" selected disabled hidden>Choose Category</option>
+                    {categoryData.map(data=>(
+                    <option key={data.id} value={data.id} name="product_id">{data.name}</option>
+                    
+                    ))}
+                  </select>
+                }
           <input
             type="text"
             name="product_name"
