@@ -108,7 +108,7 @@ function ProductApp() {
         <ul>
             {productData.map(data=>(<button key={data.id} 
               onClick={()=>handleDelete(data.id)}>
-                Test</button>)
+                {data.name}</button>)
             )}
         </ul>
         }

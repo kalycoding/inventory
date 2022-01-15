@@ -104,7 +104,7 @@ function App() {
       <p>Category</p> 
     </form>
      {
-      !categoryData ? <p>No data</p> : <ul>{categoryData.map(data=>(<button key={data.id} onClick={()=>handleDelete(data.id)}>Test</button>))}</ul>
+      !categoryData ? <p>No data</p> : <ul>{categoryData.map(data=>(<button key={data.id} onClick={()=>handleDelete(data.id)}>{data.name}</button>))}</ul>
     }
     </div>
   )
