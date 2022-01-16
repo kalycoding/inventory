@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -14,6 +15,7 @@ import (
 )
 
 var storage *datastore.InventoryMongoStorage
+var port = os.Getenv("PORT")
 
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -55,7 +57,7 @@ func main() {
 	//Export product to CSV Endpoint
 	r.GET("api/inventory/export/csv", paymentHandler.ExportInventoryToCSV)
 
-	r.Run()
+	r.Run("0.0.0.0:" + port)
 }
 
 /* CorsMiddleware set Allow All Origin to true */
