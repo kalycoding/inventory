@@ -57,7 +57,12 @@ func main() {
 	//Export product to CSV Endpoint
 	r.GET("api/inventory/export/csv", paymentHandler.ExportInventoryToCSV)
 
-	r.Run("0.0.0.0:8000")
+	port = os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	r.Run(":" + port)
 }
 
 /* CorsMiddleware set Allow All Origin to true */
