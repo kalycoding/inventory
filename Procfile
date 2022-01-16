@@ -1,1 +1,1 @@
-web: cmd/main.go
+web: ./main
