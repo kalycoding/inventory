@@ -8,7 +8,12 @@ function InventoryApp(){
         quantity: 0,
         stock_level: 0,
         selling_price:0,
-        supplier:''
+        supplier:'',
+        edit_cost_price: '',
+        edit_quantity: '',
+        edit_stock_level: '',
+        edit_selling_price:'',
+        edit_supplier:''
       });  
     
       const handleDelete = (data)=> {
@@ -74,6 +79,11 @@ function InventoryApp(){
         productFormData.append("stock_level", formValue.stock_level)
         productFormData.append("selling_price", formValue.selling_price)
         productFormData.append("supplier", formValue.supplier)
+        productFormData.append("edit_cost_price", formValue.edit_cost_price)
+        productFormData.append("edit_quantity", formValue.edit_quantity)
+        productFormData.append("edit_stock_level", formValue.edit_stock_level)
+        productFormData.append("edit_selling_price", formValue.edit_selling_price)
+        productFormData.append("edit_supplier", formValue.supplier)
         const body = {
             costPrice : Number(formValue.cost_price), 
             quantity : Number(formValue.quantity),
@@ -106,9 +116,8 @@ function InventoryApp(){
             <p>
             {
             !inventoryData ? <p></p> : <ul>
-              {inventoryData.map(data=>(<span>
               <p><center><button class="export">Export Inventory to CSV</button></center></p>
-              </span>))}</ul>
+              </ul>
               
           } 
             </p>
@@ -211,9 +220,11 @@ function InventoryApp(){
         </div>  
         <div>
         <p>
+          
           {
             !inventoryData ? <p>Empty Inventory, Please Add</p> : <ul>
               {inventoryData.map(data=>(<span>
+              <form>
               <li key={data.id}>
                 <table>
                   <tr>
@@ -226,16 +237,63 @@ function InventoryApp(){
                   </tr>
                   <tr>
                     <td>{data.product.name}</td>
-                    <td>{data.quantity}</td>
-                    <td>{data.costPrice}</td>
-                    <td>{data.stockLevel}</td>
-                    <td>{data.sellingPrice}</td>
-                    <td>{data.supplier}</td>
+                    <td>
+                    <input
+                      type="text"
+                      name="edit_quantity"
+                      placeholder={data.quantity}
+                      value={data.quantity}
+                      onChange={handleChange}
+                      required
+                    />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="edit_cost_price"
+                        placeholder="Cost Price"
+                        value={data.costPrice}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="edit_stock_level"
+                        placeholder="Stock Level"
+                        value={data.stockLevel}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="edit_selling_price"
+                        placeholder="Selling Price"
+                        value={data.sellingPrice}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="edit_supplier"
+                        placeholder="Supplier"
+                        value={data.supplier}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
                   </tr>
               </table>
               </li>
-              <p><button class="delete" onClick={()=>handleDelete(data.id)}>Delete</button></p>
+              
               <p><button class="edit">Edit</button></p>
+              </form>
+              <p><button class="delete" onClick={()=>handleDelete(data.id)}>Delete</button></p>
               </span>))}</ul>
               
           } 
