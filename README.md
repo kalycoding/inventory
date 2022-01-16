@@ -4,9 +4,9 @@
 
 This project requires the following modules/libraries, the project is running on GoLang (Backend APIs), MongoDB (Database), ReactJs (Frontend)
 
-* [Go Lang](https://go.dev/doc/install) to install GoLang on your machine
-* Mongo DB, it can be obtained from [MongoDB](https://docs.mongodb.com/guides/server/install/), to install MongoDB on your machine
-* [NodeJs](https://nodejs.org/en/download/) to install NodeJs
+* click [Go Lang](https://go.dev/doc/install) to install GoLang on your machine
+* Mongo DB, it can be obtained from [MongoDB](https://docs.mongodb.com/guides/server/install/)
+* click [NodeJs](https://nodejs.org/en/download/) to install NodeJs
 
 
 ## Installation
@@ -23,6 +23,7 @@ This project requires the following modules/libraries, the project is running on
 
 4. To run the fronted server
    ```cd frontend/frontend/```
+   <p></p>
    ```npm start```
 
 * the frontend server runs on localhost port 3000.
