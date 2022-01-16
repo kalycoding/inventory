@@ -1,4 +1,4 @@
-import './App.css';
+import './Category.css';
 import React from 'react';
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ function App() {
   }
 
   const [categoryData, setCategory] = React.useState([]);
-
+  console.log(categoryData)
   React.useEffect(() => {
     let mounted = true;
     axios.get('http://localhost:8080/api/category')
@@ -78,6 +78,59 @@ function App() {
 
   return(
     <div>
+      <h1 class="title">Category</h1>
+      <div class="container">
+        <form onSubmit={handleSubmit}>
+          <div class="row">
+            <div class="col-25">
+              <label for="fname">Category Name</label>
+            </div>
+            <div class="col-75">
+              <input
+                type="text"
+                name="category_name"
+                placeholder="Category Name"
+                value={formValue.category_name}
+                onChange={handleChange}
+                required
+              />
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="fname">Category Description</label>
+            </div>
+            <div class="col-75">
+              <textarea
+                type="text"
+                name="category_description"
+                placeholder="Category Descriptiom"
+                value={formValue.category_description}
+                onChange={handleChange}
+                required
+              />
+              </div>
+          </div>
+          <div class="row">
+            <input type="submit" value="Submit"/>
+          </div>
+        </form>
+      </div>  
+      <div>
+        <p>
+          {
+            !categoryData ? <p>Empty Categories, Please Add</p> : <ul>{categoryData.map(data=>(<span><li key={data.id}>{data.name}</li><p><button class="delete" onClick={()=>handleDelete(data.id)}>Delete</button></p></span>))}</ul>
+          } 
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default App;
+
+
+/* <div class="container">
     <form onSubmit={handleSubmit}>
       <p>Category Creation Page</p>
       <input
@@ -88,7 +141,7 @@ function App() {
         onChange={handleChange}
         required
       />
-      <input
+      <textarea
         type="text"
         name="category_description"
         placeholder="Category Description"
@@ -103,11 +156,7 @@ function App() {
       </button>
       <p>Category</p> 
     </form>
-     {
+    {
       !categoryData ? <p>No data</p> : <ul>{categoryData.map(data=>(<button key={data.id} onClick={()=>handleDelete(data.id)}>{data.name}</button>))}</ul>
     }
-    </div>
-  )
-}
-
-export default App;
+    </div> */

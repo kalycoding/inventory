@@ -33,7 +33,7 @@ func main() {
 	/* CORS Allow All Origin to be true */
 	r.Use(cors.New(CorsMiddleware()))
 
-	// Category Creation
+	// Category Endpoint
 	r.POST("api/category", paymentHandler.CreateCategory)
 	r.GET("api/category", paymentHandler.GetAllCategories)
 	r.GET("api/category/:catId", paymentHandler.GetCategory)
@@ -45,7 +45,7 @@ func main() {
 	r.GET("api/product/:prodId", paymentHandler.GetProduct)
 	r.DELETE("api/product/:prodId", paymentHandler.DeleteProduct)
 
-	// Category Inventory
+	// Inventory Endpoint
 	r.POST("api/inventory", paymentHandler.CreateInventory)
 	r.GET("api/inventory", paymentHandler.GetAllInventory)
 	r.GET("api/inventory/:invId", paymentHandler.GetInventory)

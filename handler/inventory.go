@@ -99,7 +99,7 @@ func (i InventoryHandler) CreateProduct(c *gin.Context) {
 	}
 	_, pro, err := i.inventory.CreateProduct(c, category, catId)
 	if err != nil {
-		c.JSON(400, gin.H{"Error": err.Error()})
+		c.JSON(200, gin.H{"error": "Product Already Exist"})
 		return
 	}
 	c.JSON(201, pro)

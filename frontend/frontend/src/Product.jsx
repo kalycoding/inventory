@@ -71,16 +71,16 @@ function ProductApp() {
     productFormData.append("category_description", formValue.product_description)
     const body = {name:formValue.product_name,description:formValue.product_description};
       axios.post('http://localhost:8080/api/product',body, { params: { catId: formValue.category_id } })
-          .then(function(response){
-            // if (response.status===201){
-            //   alert(`Category ${formValue.product_name} Created`)
-            // }
-            // else{
-            //   alert(`Category ${formValue.product_name} Already Exist`)
-            // }
-          })
-          .catch(error => {alert(error)
-          })
+      .then(function(response){
+        if (response.status===201){
+          alert(`Product ${formValue.product_name} Created`)
+        }
+        else{
+          alert(`Product ${formValue.product_name} Already Exist`)
+        }
+      })
+      .catch(error => {alert(error)
+      })
       }
       const handleChange = (event) => {
         setformValue({
@@ -89,8 +89,75 @@ function ProductApp() {
         });
       }
 
-      return(
+    return(
+    <div>
+      <h1 class="title">Product</h1>
+        <div class="container">
+          <form onSubmit={handleSubmit}>
+          
+            <div class="row">
+              <div class="col-25">
+                <label for="fname">Category</label>
+              </div>
+              <div class="col-75">
+                {
+                  !categoryData ? <select><option value="none" selected disabled hidden >Empty Categories, Add Category</option></select> : 
+                  <select name="category_id" onChange={handleChange}>
+                    <option value="none" selected disabled hidden>Choose Category</option>
+                    {categoryData.map(data=>(
+                    <option key={data.id} value={data.id} name="product_id">{data.name}</option>
+                    ))}
+                  </select>
+                }
+              </div>
+              <div class="col-25">
+                <label for="fname">Product Name</label>
+              </div>
+              <div class="col-75">
+                <input
+                  type="text"
+                  name="product_name"
+                  placeholder="Product Name"
+                  value={formValue.product_name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="fname">Product Description</label>
+              </div>
+              <div class="col-75">
+                <input
+                  type="text"
+                  name="product_description"
+                  placeholder="Product Description"
+                  value={formValue.product_description}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <input type="submit" value="Submit"/>
+            </div>
+          </form>
+        </div>  
         <div>
+        <p>
+          {
+            !productData ? <p>Empty Product, Please Add</p> : <ul>{productData.map(data=>(<span><li key={data.id}>{data.name}</li><p><button class="delete" onClick={()=>handleDelete(data.id)}>Delete</button></p></span>))}</ul>
+          } 
+        </p>
+      </div>
+    </div>
+    )
+}
+
+export default ProductApp;
+
+/* <div>
         <form onSubmit={handleSubmit}>
           <p>Product Page</p>
           {
@@ -135,9 +202,4 @@ function ProductApp() {
             )}
         </ul>
         }
-        </div>
-      )
-}
-
-export default ProductApp;
-
+        </div> */
