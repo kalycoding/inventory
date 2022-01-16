@@ -1,1 +1,1 @@
-web: inventory
+web: cmd/main.go
