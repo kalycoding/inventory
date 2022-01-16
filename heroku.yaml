@@ -1,2 +1,2 @@
 run:
-  web: ./main
+  web: cmd/main.go
